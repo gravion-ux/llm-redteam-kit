@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dev dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+
+      - name: Validate the bundled test pack
+        run: python -m llm_redteam_kit validate packs/core.jsonl
+
+      - name: Run test suite
+        run: python -m pytest -q
+
+      - name: Smoke-test the offline mock run with regression gate
+        run: python -m llm_redteam_kit run --mock --threshold 0.5 --out-dir reports
+
+      - name: Upload sample report
+        if: matrix.python-version == '3.12'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mock-run-report
+          path: reports/
