@@ -71,13 +71,30 @@ class OpenAICompatibleClient:
         )
         try:
             with urllib.request.urlopen(request, timeout=cfg.timeout) as resp:
-                body = json.loads(resp.read().decode("utf-8"))
+                raw = resp.read().decode("utf-8")
         except urllib.error.HTTPError as exc:
             detail = exc.read().decode("utf-8", "replace")[:500]
             raise ClientError(f"endpoint returned HTTP {exc.code}: {detail}") from exc
         except urllib.error.URLError as exc:
             raise ClientError(f"could not reach endpoint: {exc.reason}") from exc
+        except OSError as exc:
+            # e.g. a socket timeout while reading the response body
+            raise ClientError(f"could not read endpoint response: {exc}") from exc
         try:
-            return body["choices"][0]["message"]["content"] or ""
+            body = json.loads(raw)
+        except ValueError as exc:
+            raise ClientError(
+                f"endpoint did not return JSON: {raw[:200]!r}"
+            ) from exc
+        try:
+            content = body["choices"][0]["message"]["content"]
         except (KeyError, IndexError, TypeError) as exc:
             raise ClientError(f"unexpected response shape: {str(body)[:300]}") from exc
+        if content is None:
+            return ""
+        if not isinstance(content, str):
+            raise ClientError(
+                "unexpected response shape: message content is "
+                f"{type(content).__name__}, not text: {str(content)[:200]}"
+            )
+        return content
