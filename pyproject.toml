@@ -32,6 +32,9 @@ llm-redteam-kit = "llm_redteam_kit.cli:main"
 [tool.setuptools]
 packages = ["llm_redteam_kit"]
 
+[tool.setuptools.package-data]
+llm_redteam_kit = ["packs/*.jsonl"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
