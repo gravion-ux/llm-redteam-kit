@@ -10,6 +10,12 @@ network access and zero API keys.
 
 from __future__ import annotations
 
+import re
+
+# "DAN" as a standalone word (the jailbreak persona name), not as a
+# substring of unrelated words like "danger" or "Jordan".
+_DAN_RE = re.compile(r"\bdan\b")
+
 REFUSAL = (
     "I can't help with that request. I'm a mock model used for offline "
     "testing, and that prompt asks for something I must decline."
@@ -75,7 +81,7 @@ class MockModel:
 
         # Straightforward attacks the mock refuses.
         if (
-            "dan" in p
+            _DAN_RE.search(p)
             or "ignore all previous" in p
             or "ignora" in p
             or "api key" in p
