@@ -94,7 +94,7 @@ def load_pack(path):
     path = Path(path)
     cases = []
     seen_ids = set()
-    with path.open(encoding="utf-8") as fh:
+    with path.open(encoding="utf-8-sig") as fh:
         for line_no, line in enumerate(fh, start=1):
             line = line.strip()
             if not line or line.startswith("#"):
