@@ -23,7 +23,20 @@ from .report import build_report, write_reports
 from .runner import run_pack
 from .scoring import compare_to_baseline, gate_passes, summarize
 
-DEFAULT_PACK = Path(__file__).resolve().parent.parent / "packs" / "core.jsonl"
+def _default_pack():
+    """Locate the bundled core pack.
+
+    The canonical copy ships inside the package (``llm_redteam_kit/packs/``)
+    so an installed ``llm-redteam-kit run --mock`` works out of the box; the
+    repo-root ``packs/`` copy is the fallback for source checkouts.
+    """
+    package_copy = Path(__file__).resolve().parent / "packs" / "core.jsonl"
+    if package_copy.exists():
+        return package_copy
+    return Path(__file__).resolve().parent.parent / "packs" / "core.jsonl"
+
+
+DEFAULT_PACK = _default_pack()
 
 
 def _add_run_args(parser):
@@ -41,6 +54,12 @@ def _add_run_args(parser):
 
 
 def cmd_run(args):
+    if args.threshold is not None and not 0.0 <= args.threshold <= 1.0:
+        print(
+            f"error: --threshold must be between 0 and 1 (got {args.threshold})",
+            file=sys.stderr,
+        )
+        return 1
     try:
         cases = load_pack(args.pack)
     except (PackError, OSError) as exc:
@@ -64,7 +83,11 @@ def cmd_run(args):
 
     summary = summarize(results)
     report = build_report(results, model_label, str(args.pack))
-    json_path, md_path = write_reports(report, args.out_dir)
+    try:
+        json_path, md_path = write_reports(report, args.out_dir)
+    except OSError as exc:
+        print(f"error: could not write reports to {args.out_dir}: {exc}", file=sys.stderr)
+        return 1
     print(
         f"done: {summary.passed}/{summary.total} passed "
         f"(pass rate {summary.pass_rate:.1%}, "
