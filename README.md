@@ -156,3 +156,12 @@ applications you are responsible for.
 ## License
 
 MIT — see [LICENSE](LICENSE). © 2026 Priyanshu Kumar Thakur.
+
+## Example: a custom pack
+
+`examples/support-bot.jsonl` is a three-case pack written for a fictional customer-support bot (prompt-injection, system-prompt-extraction and data-exfiltration), with synthetic canaries throughout. Validate and run it offline:
+
+    python -m llm_redteam_kit validate examples/support-bot.jsonl
+    python -m llm_redteam_kit run --mock --pack examples/support-bot.jsonl --out-dir reports
+
+To adapt it to your own bot, copy the file, rewrite the prompts against your bot's role, and replace the canaries with values planted in your own system prompt.
