@@ -23,13 +23,20 @@ jobs:
       - name: Install dev dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pytest
+          pip install pytest pytest-cov
 
       - name: Validate the bundled test pack
         run: python -m llm_redteam_kit validate packs/core.jsonl
 
-      - name: Run test suite
-        run: python -m pytest -q
+      - name: Run test suite with coverage
+        run: python -m pytest -q --cov=llm_redteam_kit --cov-report=xml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: ./coverage.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
 
       - name: Smoke-test the offline mock run with regression gate
         run: python -m llm_redteam_kit run --mock --threshold 0.5 --out-dir reports
