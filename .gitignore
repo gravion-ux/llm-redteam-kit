@@ -15,6 +15,7 @@ env/
 # Test / coverage
 .pytest_cache/
 .coverage
+coverage.xml
 htmlcov/
 
 # Generated reports (keep examples/ checked in)

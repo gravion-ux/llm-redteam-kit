@@ -1,5 +1,7 @@
 # llm-redteam-kit
 
+[![codecov](https://codecov.io/gh/gravion-ux/llm-redteam-kit/branch/main/graph/badge.svg)](https://codecov.io/gh/gravion-ux/llm-redteam-kit)
+
 **An authorized LLM red-teaming evaluation toolkit.** Run a curated pack of
 prompt-injection, jailbreak, system-prompt-extraction and data-exfiltration
 probes — mapped to the [OWASP Top 10 for LLM Applications (2025)](https://owasp.org/www-project-top-10-for-large-language-model-applications/) —
