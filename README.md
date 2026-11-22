@@ -19,9 +19,29 @@ transparent heuristic detectors, and gate your CI pipeline on the result.
 - **CI-native** — pass-rate thresholds and baseline comparison with
   meaningful exit codes.
 
+**Try it in 20 seconds** (offline demo, no API key, no network):
+
+```bash
+git clone https://github.com/gravion-ux/llm-redteam-kit.git && cd llm-redteam-kit
+python -m llm_redteam_kit run --mock --out-dir reports
+cat reports/report.md
+```
+
 > ⚠️ **Authorized use only.** Only evaluate models and applications you own
 > or have explicit permission to test, with your own API keys. See
 > [Ethics & authorized use](#ethics--authorized-use).
+
+
+## Why this kit — and not garak, DeepTeam or promptfoo?
+
+Those are excellent tools, and this kit is deliberately narrower than all
+three: it is a **CI gate, not a scanner framework**. One zero-dependency
+command runs a curated, OWASP-LLM-2025-mapped probe pack against any
+OpenAI-compatible endpoint, scores responses with transparent heuristics
+you can read in one sitting, and exits with a pass/fail code your pipeline
+can block on. No plugin ecosystem to learn, no services to run — and the
+offline mock mode exercises the whole pipeline before you spend a single
+API call.
 
 ## Quickstart
 
