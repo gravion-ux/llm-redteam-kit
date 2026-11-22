@@ -51,7 +51,7 @@ python -m pytest
 
 | Feature | Details |
 | --- | --- |
-| Curated test pack | 24 probes in `packs/core.jsonl` across 4 attack categories, each with OWASP mapping and detection criteria |
+| Curated test pack | 26 probes in `packs/core.jsonl` across 4 attack categories, each with OWASP mapping and detection criteria |
 | Any OpenAI-compatible endpoint | OpenAI, Azure, Ollama, LM Studio, vLLM, OpenRouter, self-hosted gateways — just a base URL, model and key |
 | Mock mode | Deterministic fake model (refuses some probes, falls for others) for offline demos and CI smoke tests |
 | Heuristic detectors | Refusal detection + per-case regex fail patterns (canaries, leak markers, exfil channels) |
@@ -138,7 +138,7 @@ llm_redteam_kit/
   scoring.py    aggregation + regression gate
   report.py     JSON / Markdown report generation
   cli.py        `run` and `validate` subcommands
-packs/core.jsonl   the bundled 24-case probe pack
+packs/core.jsonl   the bundled 26-case probe pack
 tests/             pytest suite (pack, detectors, scoring, mock e2e, reports)
 examples/          a real mock-mode sample report
 ```
