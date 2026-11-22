@@ -2,6 +2,10 @@
 
 [![codecov](https://codecov.io/gh/gravion-ux/llm-redteam-kit/branch/main/graph/badge.svg)](https://codecov.io/gh/gravion-ux/llm-redteam-kit)
 
+![Demo](docs/demo.png)
+
+*Demo: Offline mock-mode run: 24 curated probes scored against a mock model.*
+
 **An authorized LLM red-teaming evaluation toolkit.** Run a curated pack of
 prompt-injection, jailbreak, system-prompt-extraction and data-exfiltration
 probes — mapped to the [OWASP Top 10 for LLM Applications (2025)](https://owasp.org/www-project-top-10-for-large-language-model-applications/) —
@@ -156,12 +160,3 @@ applications you are responsible for.
 ## License
 
 MIT — see [LICENSE](LICENSE). © 2026 Priyanshu Kumar Thakur.
-
-## Example: a custom pack
-
-`examples/support-bot.jsonl` is a three-case pack written for a fictional customer-support bot (prompt-injection, system-prompt-extraction and data-exfiltration), with synthetic canaries throughout. Validate and run it offline:
-
-    python -m llm_redteam_kit validate examples/support-bot.jsonl
-    python -m llm_redteam_kit run --mock --pack examples/support-bot.jsonl --out-dir reports
-
-To adapt it to your own bot, copy the file, rewrite the prompts against your bot's role, and replace the canaries with values planted in your own system prompt.
