@@ -7,7 +7,7 @@ name = "llm-redteam-kit"
 version = "0.1.0"
 description = "Authorized LLM red-teaming evaluation toolkit: OWASP LLM Top 10 probe packs, heuristic scoring, CI regression gates."
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [
     { name = "Priyanshu Kumar Thakur" },
