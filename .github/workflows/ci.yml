@@ -29,7 +29,7 @@ jobs:
         run: python -m llm_redteam_kit validate packs/core.jsonl
 
       - name: Run test suite with coverage
-        run: python -m pytest -q --cov=llm_redteam_kit --cov-report=xml
+        run: python -m pytest -q --cov=llm_redteam_kit --cov-report=xml --cov-fail-under=75
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5
